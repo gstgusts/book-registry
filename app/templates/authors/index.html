@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0">Authors</h2>
+    <a href="{{ url_for('authors.new') }}" class="btn btn-success">New author</a>
+  </div>
+
+  <form class="row gy-2 gx-2 align-items-end mb-3" method="get">
+    <div class="col-md-6">
+      <label for="q" class="form-label">Search by name or bio</label>
+      <input type="text" id="q" name="q" class="form-control" value="{{ q }}" placeholder="e.g., Austen">
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary w-100" type="submit">Search</button>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="{{ url_for('authors.index') }}">Reset</a>
+    </div>
+  </form>
+
+  {% if authors %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Bio</th>
+            <th style="width: 1%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in authors %}
+          <tr>
+            <td>{{ a.name }}</td>
+            <td class="text-muted">{{ a.bio }}</td>
+            <td>
+              <a href="{{ url_for('authors.edit', author_id=a.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">No authors found.</p>
+  {% endif %}
+{% endblock %}

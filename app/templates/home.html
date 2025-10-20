@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card"><div class="card-body">
+        <h5 class="card-title">Authors</h5>
+        <p class="display-6">{{ author_count }}</p>
+        <a href="{{ url_for('authors.index') }}" class="btn btn-primary">Manage authors</a>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card"><div class="card-body">
+        <h5 class="card-title">Books</h5>
+        <p class="display-6">{{ book_count }}</p>
+        <a href="{{ url_for('books.index') }}" class="btn btn-primary">Manage books</a>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card"><div class="card-body">
+        <h5 class="card-title">Orders</h5>
+        <p class="display-6">{{ order_count }}</p>
+        <a href="{{ url_for('orders.index') }}" class="btn btn-primary">My orders</a>
+      </div></div>
+    </div>
+  </div>
+{% endblock %}

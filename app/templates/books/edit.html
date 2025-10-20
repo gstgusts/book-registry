@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0">{{ 'New book' if not book else 'Edit book' }}</h2>
+    <a href="{{ url_for('books.index') }}" class="btn btn-outline-secondary">Back</a>
+  </div>
+
+  <form method="post" class="card">
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" id="title" name="title" value="{{ book.title if book else '' }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="published_year">Published year</label>
+        <input class="form-control" id="published_year" name="published_year" type="number" min="0" value="{{ book.published_year if book and book.published_year else '' }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="author_id">Author</label>
+        <select class="form-select" id="author_id" name="author_id" required>
+          {% for a in authors %}
+            <option value="{{ a.id }}" {% if book and book.author_id == a.id %}selected{% endif %}>{{ a.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="card-footer d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Save</button>
+      {% if book %}
+      <button class="btn btn-outline-danger" name="_action" value="delete" type="submit" onclick="return confirm('Delete this book?');">Delete</button>
+      {% endif %}
+    </div>
+  </form>
+
+  {% if not authors %}
+    <div class="alert alert-warning mt-3">
+      No authors yet. Please <a href="{{ url_for('authors.new') }}">create an author</a> first.
+    </div>
+  {% endif %}
+{% endblock %}

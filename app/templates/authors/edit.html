@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0">{{ 'New author' if not author else 'Edit author' }}</h2>
+    <a href="{{ url_for('authors.index') }}" class="btn btn-outline-secondary">Back</a>
+  </div>
+
+  <form method="post" class="card">
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-control" id="name" name="name" value="{{ (author.name if author else (form.name if form else ''))|default('') }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="bio">Bio</label>
+        <textarea class="form-control" id="bio" name="bio" rows="4">{{ (author.bio if author else (form.bio if form else ''))|default('') }}</textarea>
+      </div>
+    </div>
+    <div class="card-footer d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Save</button>
+      {% if author %}
+      <button class="btn btn-outline-danger" name="_action" value="delete" type="submit" onclick="return confirm('Delete this author? This also deletes their books.');">Delete</button>
+      {% endif %}
+    </div>
+  </form>
+{% endblock %}

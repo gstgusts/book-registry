@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <form class="row gy-2 gx-2 align-items-end mb-3" method="get">
+    <div class="col-md-6">
+      <label for="q" class="form-label">Search by number</label>
+      <input type="text" id="q" name="q" class="form-control" value="{{ q }}" placeholder="e.g., 123456">
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary w-100" type="submit">Search</button>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-outline-secondary w-100" href="{{ url_for('orders.index') }}">Reset</a>
+    </div>
+  </form>
+
+  {% if orders %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Order Date</th>
+            <th style="width: 1%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in orders %}
+          <tr>
+            <td>{{ a.number }}</td>
+            <td class="text-muted">{{ a.order_date.strftime("%Y-%m-%d") if a.order_date else "" }}</td>
+{#            <td>#}
+{#              <a href="{{ url_for('orders.details', order_id=a.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>#}
+{#            </td>#}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">No orders found.</p>
+  {% endif %}
+{% endblock %}
