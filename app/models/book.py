@@ -11,6 +11,7 @@ class Book(db.Model):
         db.ForeignKey("authors.id", ondelete="CASCADE"),
         nullable=False,
     )
+    description = db.Column(db.Text)
     author = db.relationship("Author", back_populates="books")
     # order_items = db.relationship(
     #     "OrderItem",
