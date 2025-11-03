@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 
 from .. import db
 from ..models import Author
+from datetime import datetime
 
 authors_bp = Blueprint("authors", __name__, url_prefix="/authors")
 
@@ -22,10 +23,11 @@ def new():
     if request.method == "POST":
         name = (request.form.get("name") or "").strip()
         bio = (request.form.get("bio") or "").strip()
+        birth_date = (request.form.get("birth_date") or "").strip()
         if not name:
             return render_template("authors/edit.html", author=None, error="Name is required",
                                    form={"name": name, "bio": bio})
-        a = Author(name=name, bio=bio or None)
+        a = Author(name=name, bio=bio or None, birt_date=birth_date)
         db.session.add(a)
         db.session.commit()
         return redirect(url_for("authors.index"))
@@ -42,10 +44,19 @@ def edit(author_id):
             return redirect(url_for("authors.index"))
         name = (request.form.get("name") or "").strip()
         bio = (request.form.get("bio") or "").strip()
+        birth_date = (request.form.get("birth_date") or "").strip()
+
+        print(birth_date)
+
+        dt = datetime.strptime(birth_date, "%Y-%m-%d")
+
+        print(dt)
+
         if not name:
             return render_template("authors/edit.html", author=author, error="Name is required")
         author.name = name
         author.bio = bio or None
+        author.birth_date = int(dt.timestamp())
         db.session.commit()
         return redirect(url_for("authors.index"))
     return render_template("authors/edit.html", author=author)

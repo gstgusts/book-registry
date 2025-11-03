@@ -12,6 +12,10 @@
         <input class="form-control" id="name" name="name" value="{{ (author.name if author else (form.name if form else ''))|default('') }}" required>
       </div>
       <div class="mb-3">
+        <label class="form-label" for="birth_date">Birth Date</label>
+        <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ (author.birth_date if author else (form.birth_date if form else ''))|default('') }}">
+      </div>
+      <div class="mb-3">
         <label class="form-label" for="bio">Bio</label>
         <textarea class="form-control" id="bio" name="bio" rows="4">{{ (author.bio if author else (form.bio if form else ''))|default('') }}</textarea>
       </div>

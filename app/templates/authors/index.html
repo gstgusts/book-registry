@@ -25,6 +25,7 @@
           <tr>
             <th>Name</th>
             <th>Bio</th>
+              <th>Birth Date</th>
             <th style="width: 1%"></th>
           </tr>
         </thead>
@@ -33,6 +34,7 @@
           <tr>
             <td>{{ a.name }}</td>
             <td class="text-muted">{{ a.bio }}</td>
+            <td class="text-muted">{{ a.birth_date.strftime("%Y-%m-%d") if a.birth_date else "" }}</td>
             <td>
               <a href="{{ url_for('authors.edit', author_id=a.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
             </td>
