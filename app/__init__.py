@@ -20,6 +20,10 @@ def create_app():
     app.register_blueprint(books_bp)  # /books
     app.register_blueprint(orders_bp)  # /orders
 
+    # Register api endpoints
+    from .api import api_bp
+    app.register_blueprint(api_bp)
+
     @app.get("/")
     def home():
         return render_template(
