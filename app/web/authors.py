@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 
 from .. import db
+from ..helpers.helper import date_to_bigint, date_to_unix_ms_local, date_to_unix_ms
 from ..models import Author
 from datetime import datetime
 
@@ -27,7 +28,7 @@ def new():
         if not name:
             return render_template("authors/edit.html", author=None, error="Name is required",
                                    form={"name": name, "bio": bio})
-        a = Author(name=name, bio=bio or None, birt_date=birth_date)
+        a = Author(name=name, bio=bio or None, birt_date=date_to_unix_ms(birth_date))
         db.session.add(a)
         db.session.commit()
         return redirect(url_for("authors.index"))
@@ -46,17 +47,11 @@ def edit(author_id):
         bio = (request.form.get("bio") or "").strip()
         birth_date = (request.form.get("birth_date") or "").strip()
 
-        print(birth_date)
-
-        dt = datetime.strptime(birth_date, "%Y-%m-%d")
-
-        print(dt)
-
         if not name:
             return render_template("authors/edit.html", author=author, error="Name is required")
         author.name = name
         author.bio = bio or None
-        author.birth_date = int(dt.timestamp())
+        author.birth_date = date_to_unix_ms(birth_date)
         db.session.commit()
         return redirect(url_for("authors.index"))
     return render_template("authors/edit.html", author=author)
